@@ -221,7 +221,9 @@ const refreshFromZhihu = async (force = false) => {
 // --- Serverless Handler ---
 
 export default async function handler(req: Request) {
-  const url = new URL(req.url);
+  const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
+  const protocol = req.headers.get("x-forwarded-proto") === "https" ? "https" : "http";
+  const url = new URL(req.url, `${protocol}://${host}`);
   const path = url.pathname;
 
   if (path === '/api/zhihu/comments' && req.method === 'GET') {
