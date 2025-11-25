@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --hot src/index.ts",
-    "start": "NODE_ENV=production bun src/index.ts",
+    "dev": "vercel dev",
     "build": "bun run build.ts"
   },
   "dependencies": {
+    "@vercel/kv": "^3.0.0",
     "bun-plugin-tailwind": "^0.1.2",
     "react": "^19",
     "react-dom": "^19",
