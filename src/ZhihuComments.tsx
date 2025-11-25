@@ -37,6 +37,9 @@ export function ZhihuComments() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const formattedTotal = comments.length.toLocaleString("zh-CN");
+  const updatedText = fetchedAt ? new Date(fetchedAt).toLocaleString("zh-CN") : "";
+
   const loadComments = async () => {
     setLoading(true);
     setError(null);
@@ -64,31 +67,46 @@ export function ZhihuComments() {
     loadComments();
   }, []);
 
-  const updatedText = fetchedAt ? new Date(fetchedAt).toLocaleString("zh-CN") : "";
-
   return (
-    <section className="bg-[#0f1119]/70 backdrop-blur rounded-3xl border border-white/10 shadow-2xl shadow-black/40 p-6 sm:p-10 space-y-8">
-      <header className="space-y-3 text-center">
-        <p className="text-sm uppercase tracking-[0.3em] text-[#fcb045]">Zhihu Question</p>
-        <h1 className="text-3xl sm:text-4xl font-semibold leading-tight text-white">{questionTitle}</h1>
-        <p className="text-sm text-white/70">
-          来源：{" "}
-          <a href={questionUrl} className="text-[#7dd6ff] underline-offset-4 hover:text-white" target="_blank" rel="noreferrer">
-            {questionUrl}
+    <section className="glass rounded-3xl border border-white/10 shadow-2xl shadow-black/40 p-6 sm:p-10 space-y-8">
+      <header className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.25em] text-white/70">
+            Zhihu Question
+            <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[#ff7eb6] to-[#7dd6ff]" />
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-semibold leading-tight text-white">{questionTitle}</h2>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-white/70">
+            <a href={questionUrl} className="underline underline-offset-4 hover:text-white" target="_blank" rel="noreferrer">
+              {questionUrl}
+            </a>
+            {updatedText && <span className="text-white/50">最近更新：{updatedText}</span>}
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={loadComments}
+            className="bg-gradient-to-r from-[#7dd6ff] via-[#8b7bff] to-[#ff7eb6] px-5 py-2 rounded-full font-semibold text-sm text-white shadow-lg shadow-[#7dd6ff]/30 hover:shadow-xl hover:scale-[1.01] transition disabled:opacity-60"
+            disabled={loading}
+          >
+            {loading ? "加载中…" : "刷新列表"}
+          </button>
+          <a
+            href={questionUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="px-4 py-2 rounded-full border border-white/15 text-sm text-white/80 hover:text-white hover:border-white/30 transition"
+          >
+            打开知乎原题
           </a>
-        </p>
-        {updatedText && <p className="text-xs text-white/50">最近更新：{updatedText}</p>}
+        </div>
       </header>
 
-      <div className="flex flex-wrap items-center gap-3 justify-center">
-        <button
-          onClick={loadComments}
-          className="bg-gradient-to-r from-[#fcb045] via-[#fd1d1d] to-[#833ab4] px-5 py-2 rounded-full font-semibold text-sm text-white hover:opacity-90 transition disabled:opacity-60"
-          disabled={loading}
-        >
-          {loading ? "加载中…" : "刷新列表"}
-        </button>
-        {!loading && !error && <span className="text-sm text-white/70">共 {comments.length} 条回答</span>}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <MiniStat label="回答数" value={formattedTotal} />
+        <MiniStat label="最近抓取" value={updatedText || "--"} />
+        <MiniStat label="接口模式" value="Answers" />
+        <MiniStat label="排序" value="时间序" />
       </div>
 
       {error && (
@@ -113,7 +131,11 @@ export function ZhihuComments() {
         {!loading &&
           !error &&
           comments.map(comment => (
-            <article key={comment.id} className="bg-white/3 border border-white/10 rounded-3xl p-5 sm:p-7 space-y-5 shadow-inner shadow-black/30">
+            <article
+              key={comment.id}
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-7 space-y-5 shadow-inner shadow-black/30 card-hover"
+            >
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-white/0" />
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div className="flex items-start gap-4 flex-1">
                   {comment.author.avatarUrl ? (
@@ -129,9 +151,9 @@ export function ZhihuComments() {
                     </div>
                   )}
                   <div className="flex-1">
-                    <div className="flex flex-wrap items-baseline gap-2">
+                    <div className="flex flex-wrap items-baseline gap-2 pr-2">
                       <h2 className="text-xl font-semibold text-white tracking-tight">{comment.author.name}</h2>
-                      {comment.author.headline && <p className="text-sm text-white/60">{comment.author.headline}</p>}
+                      {comment.author.headline && <p className="text-sm text-white/60 line-clamp-1">{comment.author.headline}</p>}
                     </div>
                     <p className="text-xs text-white/50 mt-1">{formatDate(comment.createdAt)}</p>
                   </div>
@@ -172,11 +194,11 @@ export function ZhihuComments() {
   );
 }
 
-function MiniStat({ label, value }: { label: string; value: number }) {
+function MiniStat({ label, value }: { label: string; value: string | number }) {
   return (
-    <span className="inline-flex flex-col items-center justify-center min-w-[60px] bg-white/5 rounded-2xl px-2.5 py-1.5 border border-white/10 text-white">
-      <span className="text-lg font-semibold leading-none">{value}</span>
-      <span className="text-[11px] text-white/70 tracking-[0.2em] uppercase">{label}</span>
+    <span className="inline-flex flex-col items-start justify-center min-w-[120px] rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-white">
+      <span className="text-sm text-white/60 tracking-[0.18em] uppercase">{label}</span>
+      <span className="text-xl font-semibold leading-tight">{value}</span>
     </span>
   );
 }

@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @layer base {
   :root {
-    @apply text-[rgba(255,255,255,0.92)] bg-[#05060a] font-sans;
+    @apply text-[rgba(255,255,255,0.92)] bg-[#05060a];
+    font-family: "Space Grotesk", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
   body {
@@ -20,15 +22,16 @@ body::after {
 }
 
 body::before {
-  background: radial-gradient(circle at 20% 20%, rgba(131, 58, 180, 0.25), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(253, 29, 29, 0.2), transparent 55%),
-    radial-gradient(circle at 50% 80%, rgba(252, 176, 69, 0.22), transparent 40%);
-  filter: blur(40px);
+  background: radial-gradient(circle at 12% 18%, rgba(112, 103, 255, 0.3), transparent 40%),
+    radial-gradient(circle at 82% 12%, rgba(253, 105, 170, 0.28), transparent 50%),
+    radial-gradient(circle at 50% 75%, rgba(252, 176, 69, 0.24), transparent 40%),
+    linear-gradient(135deg, rgba(12, 18, 34, 0.9), rgba(6, 8, 20, 0.95));
+  filter: blur(48px);
 }
 
 body::after {
-  background: repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 4px);
-  opacity: 0.4;
+  background: repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.035) 0, rgba(255, 255, 255, 0.035) 1px, transparent 1px, transparent 4px);
+  opacity: 0.45;
 }
 
 @keyframes spin {
@@ -37,6 +40,29 @@ body::after {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(14px);
+  }
+
+  .card-hover {
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background 200ms ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.14);
   }
 }
 
