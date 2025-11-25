@@ -4,8 +4,8 @@ node_modules
 # output
 out
 dist
-data/zhihu-config.json
-data/zhihu-headers.json
+#data/zhihu-config.json
+#data/zhihu-headers.json
 *.tgz
 
 # code coverage

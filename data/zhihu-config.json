@@ -1,0 +1,8 @@
+{
+  "questionId": "800718032",
+  "endpoint": "feeds",
+  "sortBy": "created",
+  "pageSize": 10,
+  "maxPages": 5,
+  "refreshIntervalMs": 900000
+}

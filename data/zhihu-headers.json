@@ -1,0 +1,19 @@
+{
+  "cookie": "_zap=dc65c8de-2eaa-4c6f-890b-4e50e52deb8a; d_c0=ATASYAzg_BmPTicbhYE-3tVoWEZZYhVtxBY=|1739246896; __snaker__id=JehzPV5AsowyJ0yd; q_c1=87fbbfd5c1b34e85ad9c108f72fad01e|1739246957000|1739246957000; _xsrf=0tVJ4nSVaEt7uBKgnynGxotBeGLH4Wl8; HMACCOUNT=E3AE090E6106D59B; Hm_lvt_98beee57fd2ef70ccdd5ca52b9740c49=1761909849; z_c0=2|1:0|10:1763436246|4:z_c0|92:Mi4xa1hZMkFRQUFBQUFCTUJKZ0RPRDhHU1lBQUFCZ0FsVk4xalFKYWdEMmM0NGRMV3VaZ1ZEeHFvbW5mUWJqN3ZZdVJ3|1561305d29b4e4b52c9b08904743b4cb769eb65f31ae5c78eb3020e51bc2a2ac; SESSIONID=V75WHFeQ8XKO9jMc9Hi9kit26y1MD4upA7kspcXyVov; JOID=UlsUB0pkr0r9uSS2K2KdGW61wEgzMZp6r_Bh0X9d9AO3hU_4Siveb5C7JbErKUcWf1UcBKExsfSUUlCJF-u5rjA=; osd=VlwcBkpgqEL8uSCxI2OdHWm9wUg3NpJ7r_Rm2X5d8AS_hE_8TSPfb5S8LbArLUAeflUYA6kwsfCTWlGJE-yxrzA=; BEC=6c53268835aec2199978cd4b4f988f8c; Hm_lpvt_98beee57fd2ef70ccdd5ca52b9740c49=1764067794",
+  "x-zse-96": "2.0_nPeSF6nLpUYNLtHOMVw0vssNF3il30rKu+/Z0uI4uwhKwlfaxOKqO1kiTsVSivlW",
+  "x-zse-93": "101_3_3.0",
+  "x-zst-81": "3_2.0aR_sn77yn6O92wOB8hPZnQr0EMYxc4f18wNBUgpTQ6nxERFZ8_Y0-4Lm-h3_tufIwJS8gcxTgJS_AuPZNcXCTwxI78YxEM20s4PGDwN8gGcYAupMWufIoLVqr4gxrRPOI0cY7HL8qun9g93mFukyigcmebS_FwOYPRP0E4rZUrN9DDom3hnynAUMnAVPF_PhaueTF_x9rT2MuwF_whFfXwL9pD3M2hVOx9V0tuVCTC2pSqV9NBVmnJr_jgV1r_STV0OZ3vg1hwFXC9Y0Tho867uq-UY9ACH9FDXfUvu1Two9HbeYmLcYwD992BCVjrNqh9oLT9H8bBtO9geYt9OfYuHfY9c1VcOBfrSfnC3qiCo9iuY_4CL0Cg_zFvLYJrLO17YOeHULsqNXrHCfp_pmQQO_iUwfc_pfwq3fyCN0QLVm6Ce849F8rer8iqwmeuCKM4SG-GNmH9YKkUS_bwL8Jgeq6JXf6XN_BDx1wJxB2rxs",
+  "x-xsrf-token": "0tVJ4nSVaEt7uBKgnynGxotBeGLH4Wl8",
+  "x-requested-with": "fetch",
+  "referer": "https://www.zhihu.com/question/800718032",
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+  "accept": "*/*",
+  "accept-encoding": "gzip, deflate, br, zstd",
+  "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+  "sec-ch-ua-mobile": "?0",
+  "sec-ch-ua-platform": "\"macOS\"",
+  "sec-fetch-dest": "empty",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-site": "same-origin"
+}
