@@ -36,15 +36,19 @@ export function ZhihuComments() {
   const [fetchedAt, setFetchedAt] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalComments, setTotalComments] = useState(0);
 
-  const formattedTotal = comments.length.toLocaleString("zh-CN");
+  const formattedTotal = totalComments.toLocaleString("zh-CN");
   const updatedText = fetchedAt ? new Date(fetchedAt).toLocaleString("zh-CN") : "";
 
-  const loadComments = async () => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const loadComments = async (offset = 0, limit = 10) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/zhihu/comments");
+      const res = await fetch(`/api/zhihu/comments?offset=${offset}&limit=${limit}`);
       if (!res.ok) {
         throw new Error("服务器暂时不可用，请稍后再试。");
       }
@@ -52,10 +56,12 @@ export function ZhihuComments() {
       if (data.error) {
         throw new Error(data.error ?? "知乎返回了一个错误。");
       }
-      setComments(data.comments);
+      setComments(offset === 0 ? data.comments : [...comments, ...data.comments]);
       setQuestionTitle(data.question.title);
       setQuestionUrl(data.question.url);
       setFetchedAt(data.fetchedAt);
+      setTotalComments(data.total);
+      setHasMore(data.comments.length > 0 && comments.length + data.comments.length < data.total);
     } catch (err) {
       setError(err instanceof Error ? err.message : "加载时出现未知错误。");
     } finally {
@@ -63,8 +69,31 @@ export function ZhihuComments() {
     }
   };
 
+  const loadMore = () => {
+    if (hasMore && !loading) {
+      loadComments(comments.length);
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/zhihu/refresh", { method: "POST" });
+      if (!res.ok) {
+        throw new Error("刷新失败，请稍后再试。");
+      }
+      // After refresh, reload the comments
+      await loadComments(0);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "刷新时出现未知错误。");
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   useEffect(() => {
-    loadComments();
+    loadComments(0);
   }, []);
 
   return (
@@ -85,11 +114,11 @@ export function ZhihuComments() {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <button
-            onClick={loadComments}
+            onClick={handleRefresh}
             className="bg-gradient-to-r from-[#7dd6ff] via-[#8b7bff] to-[#ff7eb6] px-5 py-2 rounded-full font-semibold text-sm text-white shadow-lg shadow-[#7dd6ff]/30 hover:shadow-xl hover:scale-[1.01] transition disabled:opacity-60"
-            disabled={loading}
+            disabled={loading || isRefreshing}
           >
-            {loading ? "加载中…" : "刷新列表"}
+            {isRefreshing ? "刷新中…" : "刷新列表"}
           </button>
           <a
             href={questionUrl}
@@ -111,14 +140,14 @@ export function ZhihuComments() {
 
       {error && (
         <div className="text-center text-red-300 bg-red-500/10 border border-red-500/40 rounded-2xl px-4 py-3">
-          {error} <button onClick={loadComments} className="underline underline-offset-4">
+          {error} <button onClick={handleRefresh} className="underline underline-offset-4">
             重试
           </button>
         </div>
       )}
 
       <div className="space-y-6">
-        {loading && (
+        {loading && comments.length === 0 && (
           <div className="space-y-4">
             {Array.from({ length: 3 }).map((_, idx) => (
               <div key={idx} className="animate-pulse rounded-2xl bg-white/5 h-40" />
@@ -128,8 +157,7 @@ export function ZhihuComments() {
 
         {!loading && !error && comments.length === 0 && <p className="text-center text-white/70">暂时还没有回答。</p>}
 
-        {!loading &&
-          !error &&
+        {!error &&
           comments.map(comment => (
             <article
               key={comment.id}
@@ -189,6 +217,22 @@ export function ZhihuComments() {
               </div>
             </article>
           ))}
+        {hasMore && !loading && (
+          <div className="text-center">
+            <button
+              onClick={loadMore}
+              className="bg-gradient-to-r from-[#7dd6ff] via-[#8b7bff] to-[#ff7eb6] px-5 py-2 rounded-full font-semibold text-sm text-white shadow-lg shadow-[#7dd6ff]/30 hover:shadow-xl hover:scale-[1.01] transition disabled:opacity-60"
+              disabled={loading}
+            >
+              加载更多
+            </button>
+          </div>
+        )}
+        {loading && comments.length > 0 && (
+          <div className="space-y-4">
+            <div className="animate-pulse rounded-2xl bg-white/5 h-40" />
+          </div>
+        )}
       </div>
     </section>
   );
