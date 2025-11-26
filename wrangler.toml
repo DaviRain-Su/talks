@@ -1,0 +1,7 @@
+name = "talks"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-11-26"
+
+[[kv_namespaces]]
+binding = "ZHIHU_CACHE"
+id = "717477e6308843599e91687e915fc1df"
